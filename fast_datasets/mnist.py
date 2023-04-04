@@ -5,6 +5,7 @@ __all__ = ['MNIST', 'TinyMNIST']
 
 # %% ../nbs/mnist.ipynb 3
 from fastai.vision.all import *
+
 import fast_datasets.patches
 
 # %% ../nbs/mnist.ipynb 4
