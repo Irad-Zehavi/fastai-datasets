@@ -5,7 +5,7 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://Irad-Zehavi.github.io',
                 'git_url': 'https://github.com/Irad-Zehavi/fast-datasets',
                 'lib_path': 'fast_datasets'},
-  'syms': { 'fast_datasets.cifar10': {},
+  'syms': { 'fast_datasets.cifar10': {'fast_datasets.cifar10.CIFAR10': ('cifar10.html#cifar10', 'fast_datasets/cifar10.py')},
             'fast_datasets.mnist': { 'fast_datasets.mnist.MNIST': ('mnist.html#mnist', 'fast_datasets/mnist.py'),
                                      'fast_datasets.mnist.TinyMNIST': ('mnist.html#tinymnist', 'fast_datasets/mnist.py')},
             'fast_datasets.patches': {}}}
