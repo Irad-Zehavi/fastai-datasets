@@ -4,6 +4,8 @@
 __all__ = ['MNIST', 'TinyMNIST']
 
 # %% ../nbs/mnist.ipynb 3
+from functools import partial
+
 from fastai.vision.all import *
 
 import fast_datasets.patches
@@ -20,7 +22,7 @@ def MNIST(sample=False):
 def TinyMNIST():
     return DataBlock(
         blocks=(ImageBlock, CategoryBlock),
-        get_items=get_image_files,
+        get_items=partial(get_image_files, folders=['train', 'valid']),
         get_y=parent_label,
         splitter=GrandparentSplitter(),
     ).datasets(untar_data(URLs.MNIST_TINY))

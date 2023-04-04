@@ -1,0 +1,9 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - cifar10.ipynb
+      - lfw.ipynb
+      - mnist.ipynb
+      - pairs.ipynb
+      - utils.ipynb
