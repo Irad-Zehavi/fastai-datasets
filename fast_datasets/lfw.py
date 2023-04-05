@@ -11,7 +11,7 @@ from sklearn.model_selection import KFold
 from fastdownload import FastDownload
 
 import fast_datasets.patches
-from .utils import return_list
+from .utils import return_list, fetch_file
 
 # %% ../nbs/lfw.ipynb 3
 class LFW(ABC):
@@ -31,7 +31,7 @@ class LFW(ABC):
         return [self._load(items=items, splits=s) for s in splits]
 
     def _fetch_file(self, fname):
-        return FastDownload().download(self._url(fname))
+        return fetch_file(self._url(fname))
 
     @abstractmethod
     def _parse_items(self, fname):

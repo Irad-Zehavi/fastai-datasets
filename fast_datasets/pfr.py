@@ -7,13 +7,13 @@ __all__ = ['URL', 'PinterestFaces']
 from fastai.vision.all import *
 
 import fast_datasets.patches
-from .utils import default_data_dir
+from .utils import data_path
 
 # %% ../nbs/pfr.ipynb 4
 URL = 'https://www.kaggle.com/datasets/hereisburak/pins-face-recognition'
 
 def PinterestFaces():
-    root = default_data_dir()/'105_classes_pins_dataset'
+    root = data_path()/'105_classes_pins_dataset'
     assert root.exists(), f'Please manually download dataset from {URL} to {root}'
     dblock = DataBlock(
         blocks=(ImageBlock, CategoryBlock),
