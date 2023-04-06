@@ -71,7 +71,7 @@ def Pairs(singles: Datasets,  # Used to construct pairs
           factor=10,  # ratio between numer of pairs and number of single items, for each split
           tuple_type=ImagePair  # To add `show` logic for pairs
           ) -> Datasets:
-    """Fixed set of randomly-sampled pairs """
+    """Fixed dataset of randomly-sampled pairs """
     assert singles.n_inp == 1
     pairs_for_splits = [_pairs_for_split(singles, i, factor) for i in range(singles.n_subsets)]
 
