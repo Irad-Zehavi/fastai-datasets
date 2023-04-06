@@ -25,11 +25,11 @@ class ImagePair(fastuple):
         return show_image(torch.cat([t1,line,t2], dim=2), ctx=ctx, **kwargs)
 
 class Sameness(Categorize):
-    """Category transform for pair-matching"""
+    """Converts boolean/binary labels into "Not Same"/"Same" labels"""
     def __init__(self):
         super().__init__(['Not Same', 'Same'], sort=False)
 
-    def encodes(self, o: bool):
+    def encodes(self, o: bool|int):
         return super().encodes(self.vocab[o])
 
 # %% ../nbs/pairs.ipynb 5

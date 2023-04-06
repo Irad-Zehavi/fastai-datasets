@@ -144,3 +144,8 @@ def dl(self: Datasets, **kwargs):
 @patch
 def load(self: Datasets, **kwargs):
     return first(self.dl(bs=len(self), **kwargs))
+
+
+@patch
+def subsets(self: Datasets):
+    return [self.subset(i) for i in range(self.n_subsets)]
