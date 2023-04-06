@@ -6,4 +6,5 @@ website:
       - lfw.ipynb
       - mnist.ipynb
       - pairs.ipynb
+      - pfr.ipynb
       - utils.ipynb
