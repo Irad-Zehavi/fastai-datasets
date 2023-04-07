@@ -8,7 +8,6 @@ from abc import ABC, abstractmethod
 
 from fastai.vision.all import *
 from sklearn.model_selection import KFold
-from fastdownload import FastDownload
 
 import fast_datasets.patches
 from .utils import return_list, fetch_file
