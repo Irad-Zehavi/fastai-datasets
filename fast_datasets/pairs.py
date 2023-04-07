@@ -5,7 +5,7 @@ __all__ = ['ImagePair', 'Sameness', 'Pairs']
 
 # %% ../nbs/pairs.ipynb 2
 import random
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 from fastai.vision.all import *
 from tqdm.auto import trange, tqdm
@@ -29,13 +29,13 @@ class Sameness(Categorize):
     def __init__(self):
         super().__init__(['Not Same', 'Same'], sort=False)
 
-    def encodes(self, o: bool|int):
+    def encodes(self, o: Union[bool, int]):
         return super().encodes(self.vocab[o])
 
 # %% ../nbs/pairs.ipynb 5
 @typedispatch
-def show_batch(x:ImagePair, y, samples, ctxs=None, max_n=6, nrows=None, ncols=2, figsize=None, **kwargs):
-    if figsize is None: figsize = (ncols*6, max_n//ncols * 3)
+def show_batch(x:ImagePair, y, samples, ctxs=None, max_n=9, nrows=None, ncols=3, figsize=None, **kwargs):
+    if figsize is None: figsize = (ncols*4, max_n//ncols * 2)
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize)
     ctxs = show_batch[TensorImage](x, y, samples, ctxs=ctxs, max_n=max_n, **kwargs)
     return ctxs

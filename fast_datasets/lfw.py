@@ -127,7 +127,7 @@ class LFWPairsMixin(LFW):
 class LFWPairs(LFWDevMixin, LFWPairsMixin, LFW):
     pass
 
-# %% ../nbs/lfw.ipynb 11
+# %% ../nbs/lfw.ipynb 10
 class SLLFWPairs(LFWPairsMixin, LFW):
     """Similar Looking LFW: http://whdeng.cn/SLLFW/index.html"""
     BASE_URL = f'http://whdeng.cn/SLLFW'
