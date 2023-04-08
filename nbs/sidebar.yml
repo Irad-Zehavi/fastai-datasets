@@ -3,8 +3,10 @@ website:
     contents:
       - index.ipynb
       - cifar10.ipynb
-      - lfw.ipynb
       - mnist.ipynb
       - pairs.ipynb
-      - pfr.ipynb
       - utils.ipynb
+      - section: Facial Recognition
+        contents:
+          - Facial Recognition\lfw.ipynb
+          - Facial Recognition\pfr.ipynb
