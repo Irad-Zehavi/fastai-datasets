@@ -76,13 +76,13 @@ def __sub__(self: Datasets, other: Datasets):
     assert set(other.items).issubset(self.items)
     return self.sub_dsets([i for i, o in enumerate(self.items) if o not in set(other.items)])
 
-# %% ../nbs/Core/patches.ipynb 34
+# %% ../nbs/Core/patches.ipynb 33
 @patch(as_prop=True)
 def i2t(self: Datasets):
     assert self.n_inp == len(self.tls) - 1
     return self.tls[-1]
 
-# %% ../nbs/Core/patches.ipynb 36
+# %% ../nbs/Core/patches.ipynb 35
 @patch(as_prop=True)
 def by_target(self: Datasets) -> Dict[int, Datasets]:
     if not hasattr(self, '_by_target'):
@@ -91,18 +91,18 @@ def by_target(self: Datasets) -> Dict[int, Datasets]:
         self._by_target = {c: self.sub_dsets(indices) for c, indices in tqdm(class_map.items(), desc='Class map: partitioning')}
     return self._by_target
 
-# %% ../nbs/Core/patches.ipynb 40
+# %% ../nbs/Core/patches.ipynb 39
 class ListToTuple(Transform):
     """Transforms lists to tuples, useful for fixing a bug in pytorch (pin_memory turns inner tuples into lists)"""
     def encodes(self, o:list):
         return tuple(o)
 
 
-# %% ../nbs/Core/patches.ipynb 41
+# %% ../nbs/Core/patches.ipynb 40
 dl_defaults = {'pin_memory': default_device() != torch.device('cpu'), 'device': default_device(),
                'after_item': [ToTensor], 'after_batch': [ListToTuple, IntToFloatTensor]}
 
-# %% ../nbs/Core/patches.ipynb 43
+# %% ../nbs/Core/patches.ipynb 42
 def _dl_args(kwargs):
     args = deepcopy(dl_defaults)
     for event in ['after_item', 'after_batch']:
@@ -123,19 +123,19 @@ def dl(self: Datasets, **kwargs) -> DataLoader:
     """Creates a `DataLoader` (ignoring splits) with defaults from `dl_defaults`"""
     return self._dl_type(self, **_dl_args(kwargs))
 
-# %% ../nbs/Core/patches.ipynb 45
+# %% ../nbs/Core/patches.ipynb 44
 @patch
 def load(self: Datasets, **kwargs):
     return first(self.dl(bs=len(self), **kwargs))
 
-# %% ../nbs/Core/patches.ipynb 48
+# %% ../nbs/Core/patches.ipynb 47
 @patch(as_prop=True)
 def subsets(self: Datasets
             ) -> TfmdLists:  # something
     """Lazy list of a `Datasets`'s subsets"""
     return TfmdLists(range(self.n_subsets), self.subset)
 
-# %% ../nbs/Core/patches.ipynb 50
+# %% ../nbs/Core/patches.ipynb 49
 @patch
 def resplit(self: Datasets,
             splits: Union[Callable, List[List[int]]]  # a splitter function or a list of splits
