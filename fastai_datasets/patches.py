@@ -32,6 +32,18 @@ def sublist(self: TfmdLists, indices: Iterable[int]) -> TfmdLists:
 def sub_dsets(self: Datasets, indices: Iterable[int]):
     return Datasets(tls=[t.sublist(indices) for t in self.tls])
 
+# %% ../nbs/Core/patches.ipynb 13
+@patch
+def random_sub_dsets(self: Datasets, size, with_replacement=False, less_ok=False) -> Datasets:
+    if size == 0:
+        return self.subset([])
+    if len(self) < size:
+        assert less_ok
+        size = len(self)
+    sampler = random.choices if with_replacement else random.sample
+    indices = sampler(range(len(self)),  k=size)
+    return self.sub_dsets(indices)
+
 # %% ../nbs/Core/patches.ipynb 18
 @patch
 def subset(self: TfmdLists, i):
