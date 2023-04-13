@@ -7,12 +7,12 @@ __all__ = ['ROOT', 'PinterestFaces']
 from fastai.vision.all import *
 
 import fastai_datasets.patches
-from .utils import data_path
+from .utils import *
 
 # %% ../nbs/Facial Recognition/pfr.ipynb 5
 ROOT = data_path()/'105_classes_pins_dataset'
 
-def PinterestFaces():
+def PinterestFaces(mtcnn=True):
     """Requires the user to download the file manually"""
     assert ROOT.exists(), f'Please manually download the dataset to {ROOT}'
     dblock = DataBlock(
@@ -21,4 +21,4 @@ def PinterestFaces():
         get_y=lambda p: parent_label(p).replace('pins_', '').replace('_', ' ').title()
     )
 
-    return dblock.datasets(ROOT)
+    return dblock.datasets(mtcnn_aligned(ROOT, batched=False) if mtcnn else ROOT)

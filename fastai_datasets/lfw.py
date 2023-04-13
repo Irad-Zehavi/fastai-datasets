@@ -10,15 +10,18 @@ from fastai.vision.all import *
 from sklearn.model_selection import KFold
 
 import fastai_datasets.patches
-from .utils import return_list, fetch_file
+from .utils import *
 
 # %% ../nbs/Facial Recognition/lfw.ipynb 3
 class LFW(ABC):
     BASE_URL = 'http://vis-www.cs.umass.edu/lfw'
     TEST_ITEMS_FILE_NAME: str
 
-    def __init__(self):
+    def __init__(self, mtcnn=True):
         self.root = untar_data(self._url('lfw.tgz'))
+        if mtcnn:
+            self.root = mtcnn_aligned(self.root)
+
 
     @classmethod
     def _url(cls, fname):
