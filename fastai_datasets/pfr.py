@@ -6,7 +6,7 @@ __all__ = ['ROOT', 'PinterestFaces']
 # %% ../nbs/Facial Recognition/pfr.ipynb 4
 from fastai.vision.all import *
 
-import fast_datasets.patches
+import fastai_datasets.patches
 from .utils import data_path
 
 # %% ../nbs/Facial Recognition/pfr.ipynb 5

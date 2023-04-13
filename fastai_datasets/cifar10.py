@@ -6,7 +6,7 @@ __all__ = ['CIFAR10']
 # %% ../nbs/cifar10.ipynb 3
 from fastai.vision.all import *
 
-import fast_datasets.patches
+import fastai_datasets.patches
 
 # %% ../nbs/cifar10.ipynb 4
 def CIFAR10():

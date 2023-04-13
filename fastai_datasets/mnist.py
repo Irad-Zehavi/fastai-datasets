@@ -8,7 +8,7 @@ from functools import partial
 
 from fastai.vision.all import *
 
-import fast_datasets.patches
+import fastai_datasets.patches
 
 # %% ../nbs/mnist.ipynb 4
 def MNIST(sample=False):

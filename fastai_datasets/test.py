@@ -8,7 +8,7 @@ from functools import partial
 
 from fastai.vision.all import *
 
-import fast_datasets.patches
+import fastai_datasets.patches
 
 # %% ../nbs/Facial Recognition/test.ipynb 4
 def MNIST(sample=False):

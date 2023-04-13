@@ -10,7 +10,7 @@ from typing import NamedTuple, Union
 from fastai.vision.all import *
 from tqdm.auto import trange, tqdm
 
-import fast_datasets.patches
+import fastai_datasets.patches
 from .utils import return_list
 
 # %% ../nbs/pairs.ipynb 3

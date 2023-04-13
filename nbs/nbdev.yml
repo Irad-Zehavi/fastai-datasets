@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: "fast-datasets"
-  site-url: "https://Irad-Zehavi.github.io/fast-datasets"
+  title: "fastai-datasets"
+  site-url: "https://Irad-Zehavi.github.io/fastai-datasets"
   description: "Leveraging fastai to easily load and handle datasets"
   repo-branch: main
-  repo-url: "https://github.com/Irad-Zehavi/fast-datasets"
+  repo-url: "https://github.com/Irad-Zehavi/fastai-datasets"
