@@ -5,7 +5,10 @@ website:
       - cifar10.ipynb
       - mnist.ipynb
       - pairs.ipynb
-      - utils.ipynb
+      - section: Core
+        contents:
+          - Core\patches.ipynb
+          - Core\utils.ipynb
       - section: Facial Recognition
         contents:
           - Facial Recognition\lfw.ipynb

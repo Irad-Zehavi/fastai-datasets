@@ -48,7 +48,7 @@ def _pairs_for_split(singles: DataLoaders, split_idx: int, factor: int):
     num = int(len(indices) * factor)
 
     class_map = defaultdict(list)
-    for i, c in tqdm(zip(indices, singles.targets.subset(split_idx)), desc='Class map: scanning targets'):
+    for i, c in tqdm(zip(indices, singles.i2t.subset(split_idx)), desc='Class map: scanning targets'):
         class_map[singles.vocab[c]].append(i)
 
     @return_list
@@ -84,7 +84,7 @@ def Pairs(singles: Datasets,  # Used to construct pairs
         [L(x) for items in pairs_for_splits for x in items],
         tfms=[
             lambda o: tuple_type(singles.tls[0][o]),
-            [lambda o: bool(singles.targets[o[0]] == singles.targets[o[1]]), Sameness()]
+            [lambda o: bool(singles.i2t[o[0]] == singles.i2t[o[1]]), Sameness()]
         ],
         splits=splits,
         do_setup=False,
