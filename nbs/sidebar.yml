@@ -3,6 +3,7 @@ website:
     contents:
       - index.ipynb
       - cifar10.ipynb
+      - imagenette.ipynb
       - mnist.ipynb
       - pairs.ipynb
       - section: Core
