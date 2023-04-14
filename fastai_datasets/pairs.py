@@ -11,7 +11,7 @@ from fastai.vision.all import *
 from tqdm.auto import trange, tqdm
 
 import fastai_datasets.patches
-from .utils import return_list
+from .utils import *
 
 # %% ../nbs/pairs.ipynb 3
 class ImagePair(fastuple):
