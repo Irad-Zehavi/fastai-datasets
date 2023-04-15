@@ -21,7 +21,7 @@ class ImagePair(fastuple):
     
     def show(self, ctx=None, **kwargs): 
         t1,t2 = ToTensor()(self)
-        line = t1.new_zeros(t1.shape[0], t1.shape[1], 10)
+        line = t1.new_zeros(t1.shape[0], t1.shape[1], 1)
         return show_image(torch.cat([t1,line,t2], dim=2), ctx=ctx, **kwargs)
 
 class Sameness(Categorize):
