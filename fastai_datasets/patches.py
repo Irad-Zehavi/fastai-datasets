@@ -148,6 +148,11 @@ def subsets(self: Datasets
     return TfmdLists(range(self.n_subsets), self.subset)
 
 # %% ../nbs/Core/patches.ipynb 49
+@patch()
+def __repr__(self: Datasets):
+    return '['+'\n'.join(repr(s) for s in self.subsets)+']' if self.split_idx is None else coll_repr(self)
+
+# %% ../nbs/Core/patches.ipynb 50
 @patch
 def resplit(self: Datasets,
             splits: Union[Callable, List[List[int]]]  # a splitter function or a list of splits
