@@ -17,5 +17,5 @@ def Imagenette(size:Literal[None, 320, 160]):
         blocks=(ImageBlock, CategoryBlock),
         get_items=get_image_files,
         get_y=parent_label,
-        splitter=GrandparentSplitter()
+        splitter=GrandparentSplitter('train', 'val')
     ).datasets(untar_data(url))
