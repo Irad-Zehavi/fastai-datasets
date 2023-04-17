@@ -105,18 +105,26 @@ def by_target(self: Datasets) -> Dict[int, Datasets]:
     return self._by_target
 
 
-# %% ../nbs/Core/patches.ipynb 39
+# %% ../nbs/Core/patches.ipynb 37
+import matplotlib.pyplot as plt
+
+@patch()
+def plot_class_distribution(self: Datasets):
+    for split in self.subsets:
+        plt.bar(self.vocab, [len(split.by_target[c]) for c in self.vocab])
+
+# %% ../nbs/Core/patches.ipynb 41
 class ListToTuple(Transform):
     """Transforms lists to tuples, useful for fixing a bug in pytorch (pin_memory turns inner tuples into lists)"""
     def encodes(self, o:list):
         return tuple(o)
 
 
-# %% ../nbs/Core/patches.ipynb 40
+# %% ../nbs/Core/patches.ipynb 42
 dl_defaults = {'pin_memory': default_device() != torch.device('cpu'), 'device': default_device(),
                'after_item': [ToTensor], 'after_batch': [ListToTuple, IntToFloatTensor]}
 
-# %% ../nbs/Core/patches.ipynb 42
+# %% ../nbs/Core/patches.ipynb 44
 def _dl_args(kwargs):
     args = deepcopy(dl_defaults)
     for event in ['after_item', 'after_batch']:
@@ -137,23 +145,18 @@ def dl(self: Datasets, **kwargs) -> DataLoader:
     """Creates a `DataLoader` (ignoring splits) with defaults from `dl_defaults`"""
     return self._dl_type(self, **_dl_args(kwargs))
 
-# %% ../nbs/Core/patches.ipynb 44
+# %% ../nbs/Core/patches.ipynb 46
 @patch
 def load(self: Datasets, **kwargs):
     return first(self.dl(bs=len(self), **kwargs))
 
-# %% ../nbs/Core/patches.ipynb 47
+# %% ../nbs/Core/patches.ipynb 49
 @patch(as_prop=True)
 def subsets(self: Datasets) -> TfmdLists:
     """Lazy list of a `Datasets`'s subsets"""
     return TfmdLists(range(self.n_subsets), self.subset)
 
-# %% ../nbs/Core/patches.ipynb 49
-@patch()
-def __repr__(self: Datasets):
-    return '['+'\n'.join(repr(s) for s in self.subsets)+']' if self.split_idx is None else coll_repr(self)
-
-# %% ../nbs/Core/patches.ipynb 50
+# %% ../nbs/Core/patches.ipynb 51
 @patch
 def resplit(self: Datasets,
             splits: Union[Callable, List[List[int]]]  # a splitter function or a list of splits
@@ -163,3 +166,8 @@ def resplit(self: Datasets,
         splits = splits(self)
     for t in self.tls:
         t.splits = splits
+
+# %% ../nbs/Core/patches.ipynb 54
+@patch()
+def __repr__(self: Datasets):
+    return '['+'\n'.join(repr(s) for s in self.subsets)+']' if self.split_idx is None else coll_repr(self)

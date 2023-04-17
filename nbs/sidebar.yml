@@ -8,9 +8,9 @@ website:
       - pairs.ipynb
       - section: Core
         contents:
-          - Core/patches.ipynb
-          - Core/utils.ipynb
+          - Core\patches.ipynb
+          - Core\utils.ipynb
       - section: Facial Recognition
         contents:
-          - Facial Recognition/lfw.ipynb
-          - Facial Recognition/pfr.ipynb
+          - Facial Recognition\lfw.ipynb
+          - Facial Recognition\pfr.ipynb
