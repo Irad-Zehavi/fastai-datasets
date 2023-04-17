@@ -21,7 +21,7 @@ def sublist(self: TfmdLists, indices: Iterable[int]) -> TfmdLists:
 
     all_indices = L(range_of(self))
     def subsplit(s):
-        split_idxs = all_indices[s]
+        split_idxs = set(all_indices[s])
         return [i for i, j in enumerate(indices) if j in split_idxs]
     sub.splits = [subsplit(s) for s in self.splits]
     
@@ -142,8 +142,7 @@ def load(self: Datasets, **kwargs):
 
 # %% ../nbs/Core/patches.ipynb 47
 @patch(as_prop=True)
-def subsets(self: Datasets
-            ) -> TfmdLists:  # something
+def subsets(self: Datasets) -> TfmdLists:
     """Lazy list of a `Datasets`'s subsets"""
     return TfmdLists(range(self.n_subsets), self.subset)
 
