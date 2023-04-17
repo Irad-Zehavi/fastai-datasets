@@ -98,10 +98,12 @@ def i2t(self: Datasets):
 @patch(as_prop=True)
 def by_target(self: Datasets) -> Dict[int, Datasets]:
     if not hasattr(self, '_by_target'):
-        targets = [self.vocab[t] for t in tqdm(self.i2t, desc='Class map: scanning targets')]
+        targets = [int(t) for t in tqdm(self.i2t, desc='Class map: scanning targets')]
         class_map = groupby(enumerate(targets), key=1, val=0)
-        self._by_target = {c: self.sub_dsets(indices) for c, indices in tqdm(class_map.items(), desc='Class map: partitioning')}
+        self._by_target = {self.vocab[c]: self.sub_dsets(indices)
+                           for c, indices in tqdm(class_map.items(), desc='Class map: partitioning')}
     return self._by_target
+
 
 # %% ../nbs/Core/patches.ipynb 39
 class ListToTuple(Transform):
