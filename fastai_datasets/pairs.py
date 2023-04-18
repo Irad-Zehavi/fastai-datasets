@@ -40,6 +40,12 @@ def show_batch(x:ImagePair, y, samples, ctxs=None, max_n=9, nrows=None, ncols=3,
     ctxs = show_batch[TensorImage](x, y, samples, ctxs=ctxs, max_n=max_n, **kwargs)
     return ctxs
 
+@typedispatch
+def show_results(x:ImagePair, y:TensorCategory, samples, outs, ctxs=None, max_n=9, nrows=None, ncols=3, figsize=None, **kwargs):
+    if figsize is None: figsize = (ncols*4, max_n//ncols * 2.5)
+    if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize)
+    ctxs = show_results[TensorImage, TensorCategory](x, y, samples, outs, ctxs=ctxs, max_n=max_n, **kwargs)
+
 # %% ../nbs/pairs.ipynb 6
 def _pairs_for_split(singles: DataLoaders, split_idx: int, factor: int):
     assert singles.n_inp == 1
@@ -86,6 +92,5 @@ def Pairs(singles: Datasets,  # Used to construct pairs
             lambda o: tuple_type(singles.tls[0][o]),
             [lambda o: bool(singles.i2t[o[0]] == singles.i2t[o[1]]), Sameness()]
         ],
-        splits=splits,
-        do_setup=False,
+        splits=splits
     )
