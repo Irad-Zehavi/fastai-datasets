@@ -8,7 +8,7 @@ import random
 from typing import NamedTuple, Union
 
 from fastai.vision.all import *
-from tqdm.auto import trange, tqdm
+from tqdm.autonotebook import trange, tqdm
 
 import fastai_datasets.patches
 from .utils import *

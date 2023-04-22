@@ -9,7 +9,7 @@ from collections import defaultdict
 from typing import List, Dict, Sequence, Union
 from functools import partial
 
-from tqdm.auto import tqdm
+from tqdm.autonotebook import tqdm
 from fastai.vision.all import *
 
 # %% ../nbs/Core/patches.ipynb 5
