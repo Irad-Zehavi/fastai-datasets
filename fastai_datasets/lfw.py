@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['LFWPeople', 'LFWPairs', 'SLLFWPairs']
 
-# %% ../nbs/Facial Recognition/lfw.ipynb 4
+# %% ../nbs/Facial Recognition/lfw.ipynb 2
 from abc import ABC, abstractmethod
 
 from fastai.vision.all import *
@@ -12,7 +12,7 @@ from sklearn.model_selection import KFold
 import fastai_datasets.patches
 from .utils import *
 
-# %% ../nbs/Facial Recognition/lfw.ipynb 5
+# %% ../nbs/Facial Recognition/lfw.ipynb 3
 class LFW(ABC):
     BASE_URL = 'http://vis-www.cs.umass.edu/lfw'
     TEST_ITEMS_FILE_NAME: str
@@ -61,7 +61,7 @@ class LFWDevMixin(LFW):
             splits=IndexSplitter(range_of(valid_items))(items)
         )
 
-# %% ../nbs/Facial Recognition/lfw.ipynb 6
+# %% ../nbs/Facial Recognition/lfw.ipynb 4
 class LFWPeople(LFWDevMixin, LFW):
     """
     Individual facial images.
@@ -92,10 +92,10 @@ class LFWPeople(LFWDevMixin, LFW):
         )
 
 
-# %% ../nbs/Facial Recognition/lfw.ipynb 8
+# %% ../nbs/Facial Recognition/lfw.ipynb 6
 from .pairs import *
 
-# %% ../nbs/Facial Recognition/lfw.ipynb 9
+# %% ../nbs/Facial Recognition/lfw.ipynb 7
 class LFWPairsMixin(LFW):
     """Fixed pairs of facial images"""
     TEST_ITEMS_FILE_NAME = 'pairs.txt'
@@ -126,11 +126,11 @@ class LFWPairsMixin(LFW):
             **kwargs
         )
 
-# %% ../nbs/Facial Recognition/lfw.ipynb 10
+# %% ../nbs/Facial Recognition/lfw.ipynb 8
 class LFWPairs(LFWDevMixin, LFWPairsMixin, LFW):
     pass
 
-# %% ../nbs/Facial Recognition/lfw.ipynb 12
+# %% ../nbs/Facial Recognition/lfw.ipynb 10
 class SLLFWPairs(LFWPairsMixin, LFW):
     """Similar Looking LFW: http://whdeng.cn/SLLFW/index.html"""
     BASE_URL = f'http://whdeng.cn/SLLFW'

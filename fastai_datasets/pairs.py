@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['ImagePair', 'Sameness', 'Pairs']
 
-# %% ../nbs/pairs.ipynb 4
+# %% ../nbs/pairs.ipynb 2
 import random
 from typing import NamedTuple, Union
 
@@ -13,7 +13,7 @@ from fastprogress.fastprogress import *
 import fastai_datasets.patches
 from .utils import *
 
-# %% ../nbs/pairs.ipynb 5
+# %% ../nbs/pairs.ipynb 3
 class ImagePair(fastuple):
     """Adds showing functionality to fastai's `fastuple`"""
     @classmethod
@@ -32,7 +32,7 @@ class Sameness(Categorize):
     def encodes(self, o: Union[bool, int]):
         return super().encodes(self.vocab[o])
 
-# %% ../nbs/pairs.ipynb 7
+# %% ../nbs/pairs.ipynb 5
 @typedispatch
 def show_batch(x:ImagePair, y, samples, ctxs=None, max_n=9, nrows=None, ncols=3, figsize=None, **kwargs):
     if figsize is None: figsize = (ncols*4, max_n//ncols * 2)
@@ -46,7 +46,7 @@ def show_results(x:ImagePair, y:TensorCategory, samples, outs, ctxs=None, max_n=
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize)
     ctxs = show_results[TensorImage, TensorCategory](x, y, samples, outs, ctxs=ctxs, max_n=max_n, **kwargs)
 
-# %% ../nbs/pairs.ipynb 8
+# %% ../nbs/pairs.ipynb 6
 def _pairs_for_split(singles: DataLoaders, split_idx: int, factor: int):
     assert singles.n_inp == 1
 

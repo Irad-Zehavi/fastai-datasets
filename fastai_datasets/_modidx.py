@@ -101,7 +101,5 @@ d = { 'settings': { 'branch': 'main',
                                                                              'fastai_datasets/pfr.py')},
             'fastai_datasets.utils': { 'fastai_datasets.utils.data_path': ('Core/utils.html#data_path', 'fastai_datasets/utils.py'),
                                        'fastai_datasets.utils.fetch_file': ('Core/utils.html#fetch_file', 'fastai_datasets/utils.py'),
-                                       'fastai_datasets.utils.fix_notebook_widgets': ( 'Core/utils.html#fix_notebook_widgets',
-                                                                                       'fastai_datasets/utils.py'),
                                        'fastai_datasets.utils.mtcnn_aligned': ('Core/utils.html#mtcnn_aligned', 'fastai_datasets/utils.py'),
                                        'fastai_datasets.utils.return_list': ('Core/utils.html#return_list', 'fastai_datasets/utils.py')}}}
