@@ -6,7 +6,6 @@ website:
       - imagenette.ipynb
       - mnist.ipynb
       - pairs.ipynb
-      - test.ipynb
       - section: Core
         contents:
           - Core/patches.ipynb

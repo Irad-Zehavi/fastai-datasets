@@ -1,4 +1,4 @@
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 # Bugfix: fastprogress bars not showing in VSCode notebooks. Taken from https://github.com/microsoft/vscode-jupyter/issues/13163
 import IPython

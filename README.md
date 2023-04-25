@@ -64,8 +64,8 @@ Subset:
 mnist.random_sub_dsets(1000)
 ```
 
-    [(#862) [(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(6)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0))...]
-    (#138) [(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(5)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(2)),(PILImage mode=RGB size=28x28, TensorCategory(8))...]]
+    [(#865) [(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(9)),(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(9)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(1))...]
+    (#135) [(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(9)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(5)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(9))...]]
 
 ### Construct a subset based on classes
 
@@ -90,9 +90,9 @@ Pairs(cifar10, .01).dls().show_batch()
 ```
 
     <div>
-      <progress value='250' class='' max='250' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [250/250 00:00&lt;00:00 Generating positive pairs]
+      <progress value='50' class='' max='50' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [50/50 00:00&lt;00:00 Generating negative pairs]
     </div>
     
 
-    NameError: name 'trange' is not defined
+![](index_files/figure-commonmark/cell-8-output-2.png)
