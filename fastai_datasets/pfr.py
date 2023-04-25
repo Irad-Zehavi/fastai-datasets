@@ -3,13 +3,13 @@
 # %% auto 0
 __all__ = ['ROOT', 'PinterestFaces']
 
-# %% ../nbs/Facial Recognition/pfr.ipynb 4
+# %% ../nbs/Facial Recognition/pfr.ipynb 5
 from fastai.vision.all import *
 
 import fastai_datasets.patches
 from .utils import *
 
-# %% ../nbs/Facial Recognition/pfr.ipynb 5
+# %% ../nbs/Facial Recognition/pfr.ipynb 6
 ROOT = data_path()/'105_classes_pins_dataset'
 
 def PinterestFaces(mtcnn=True):

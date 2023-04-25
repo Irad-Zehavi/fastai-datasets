@@ -3,12 +3,12 @@
 # %% auto 0
 __all__ = ['CIFAR10']
 
-# %% ../nbs/cifar10.ipynb 3
+# %% ../nbs/cifar10.ipynb 4
 from fastai.vision.all import *
 
 import fastai_datasets.patches
 
-# %% ../nbs/cifar10.ipynb 4
+# %% ../nbs/cifar10.ipynb 5
 def CIFAR10():
     return DataBlock(
         blocks=(ImageBlock, CategoryBlock),

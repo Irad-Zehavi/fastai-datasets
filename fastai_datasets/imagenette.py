@@ -3,14 +3,14 @@
 # %% auto 0
 __all__ = ['Imagenette']
 
-# %% ../nbs/imagenette.ipynb 3
+# %% ../nbs/imagenette.ipynb 4
 from typing import Literal
 
 from fastai.vision.all import *
 
 import fastai_datasets.patches
 
-# %% ../nbs/imagenette.ipynb 4
+# %% ../nbs/imagenette.ipynb 5
 def Imagenette(size:Literal[None, 320, 160]):
     url = {None: URLs.IMAGENETTE, 320: URLs.IMAGENETTE_320, 160: URLs.IMAGENETTE_160}[size]
     return DataBlock(

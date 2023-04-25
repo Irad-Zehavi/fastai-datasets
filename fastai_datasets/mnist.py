@@ -3,14 +3,14 @@
 # %% auto 0
 __all__ = ['MNIST', 'TinyMNIST']
 
-# %% ../nbs/mnist.ipynb 3
+# %% ../nbs/mnist.ipynb 4
 from functools import partial
 
 from fastai.vision.all import *
 
 import fastai_datasets.patches
 
-# %% ../nbs/mnist.ipynb 4
+# %% ../nbs/mnist.ipynb 5
 def MNIST(sample=False):
     return DataBlock(
         blocks=(ImageBlock, CategoryBlock),

@@ -3,17 +3,17 @@
 # %% auto 0
 __all__ = ['ImagePair', 'Sameness', 'Pairs']
 
-# %% ../nbs/pairs.ipynb 2
+# %% ../nbs/pairs.ipynb 4
 import random
 from typing import NamedTuple, Union
 
 from fastai.vision.all import *
-from tqdm.autonotebook import trange, tqdm
+from fastprogress.fastprogress import *
 
 import fastai_datasets.patches
 from .utils import *
 
-# %% ../nbs/pairs.ipynb 3
+# %% ../nbs/pairs.ipynb 5
 class ImagePair(fastuple):
     """Adds showing functionality to fastai's `fastuple`"""
     @classmethod
@@ -32,7 +32,7 @@ class Sameness(Categorize):
     def encodes(self, o: Union[bool, int]):
         return super().encodes(self.vocab[o])
 
-# %% ../nbs/pairs.ipynb 5
+# %% ../nbs/pairs.ipynb 7
 @typedispatch
 def show_batch(x:ImagePair, y, samples, ctxs=None, max_n=9, nrows=None, ncols=3, figsize=None, **kwargs):
     if figsize is None: figsize = (ncols*4, max_n//ncols * 2)
@@ -46,7 +46,7 @@ def show_results(x:ImagePair, y:TensorCategory, samples, outs, ctxs=None, max_n=
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize)
     ctxs = show_results[TensorImage, TensorCategory](x, y, samples, outs, ctxs=ctxs, max_n=max_n, **kwargs)
 
-# %% ../nbs/pairs.ipynb 6
+# %% ../nbs/pairs.ipynb 8
 def _pairs_for_split(singles: DataLoaders, split_idx: int, factor: int):
     assert singles.n_inp == 1
 
@@ -54,19 +54,19 @@ def _pairs_for_split(singles: DataLoaders, split_idx: int, factor: int):
     num = int(len(indices) * factor)
 
     class_map = defaultdict(list)
-    for i, c in tqdm(zip(indices, singles.i2t.subset(split_idx)), desc='Class map: scanning targets'):
+    for i, c in progress_bar(indices.zipwith(singles.i2t.subset(split_idx)), comment='Class map: scanning targets'):
         class_map[singles.vocab[c]].append(i)
 
     @return_list
     def _positive_pairs():
         multi_item_class_map = {k: v for k, v in class_map.items() if len(v)>1}
-        for _ in trange(num//2, desc=f'Generating positive pairs'):
+        for _ in progress_bar(range(num//2), comment=f'Generating positive pairs'):
             c, idxs = random.choice(list(multi_item_class_map.items()))
             yield tuple(random.sample(idxs, 2))
 
     @return_list
     def _negative_pairs():
-        for _ in trange(num//2, desc=f'Generating negative pairs'):
+        for _ in progress_bar(range(num//2), comment=f'Generating negative pairs'):
             (c1, idxs1), (c2, idxs2) = random.sample(list(class_map.items()), 2)
             yield (random.choice(idxs1), random.choice(idxs2))
 

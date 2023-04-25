@@ -39,15 +39,13 @@ mnist.dls().show_batch()
 mnist.plot_class_distribution()
 ```
 
-    Class map: scanning targets:   0%|          | 0/60000 [00:00<?, ?it/s]
+    <div>
+      <progress value='10' class='' max='10' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [10/10 00:00&lt;00:00 Class map: partitioning]
+    </div>
+    
 
-    Class map: partitioning:   0%|          | 0/10 [00:00<?, ?it/s]
-
-    Class map: scanning targets:   0%|          | 0/10000 [00:00<?, ?it/s]
-
-    Class map: partitioning:   0%|          | 0/10 [00:00<?, ?it/s]
-
-![](index_files/figure-commonmark/cell-4-output-5.png)
+![](index_files/figure-commonmark/cell-4-output-2.png)
 
 ### Sample a subset
 
@@ -57,8 +55,8 @@ Whole datasets:
 mnist
 ```
 
-    [(#60000) [(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0))...]
-    (#10000) [(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0))...]]
+    [(#60000) [(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7))...]
+    (#10000) [(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7))...]]
 
 Subset:
 
@@ -66,8 +64,8 @@ Subset:
 mnist.random_sub_dsets(1000)
 ```
 
-    [(#874) [(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(9)),(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(5)),(PILImage mode=RGB size=28x28, TensorCategory(5)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(2)),(PILImage mode=RGB size=28x28, TensorCategory(4))...]
-    (#126) [(PILImage mode=RGB size=28x28, TensorCategory(2)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(2)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(6)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0))...]]
+    [(#862) [(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(6)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(0))...]
+    (#138) [(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(5)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(2)),(PILImage mode=RGB size=28x28, TensorCategory(8))...]]
 
 ### Construct a subset based on classes
 
@@ -77,11 +75,13 @@ dig_frog_bird = cifar10.by_target['dog'] + cifar10.by_target['frog'] + cifar10.b
 dig_frog_bird.dls().show_batch()
 ```
 
-    Class map: scanning targets:   0%|          | 0/60000 [00:00<?, ?it/s]
+    <div>
+      <progress value='10' class='' max='10' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [10/10 00:00&lt;00:00 Class map: partitioning]
+    </div>
+    
 
-    Class map: partitioning:   0%|          | 0/10 [00:00<?, ?it/s]
-
-![](index_files/figure-commonmark/cell-7-output-3.png)
+![](index_files/figure-commonmark/cell-7-output-2.png)
 
 ### Construct a dataset of similarity pairs
 
@@ -89,16 +89,10 @@ dig_frog_bird.dls().show_batch()
 Pairs(cifar10, .01).dls().show_batch()
 ```
 
-    Class map: scanning targets: 0it [00:00, ?it/s]
+    <div>
+      <progress value='250' class='' max='250' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [250/250 00:00&lt;00:00 Generating positive pairs]
+    </div>
+    
 
-    Generating positive pairs:   0%|          | 0/250 [00:00<?, ?it/s]
-
-    Generating negative pairs:   0%|          | 0/250 [00:00<?, ?it/s]
-
-    Class map: scanning targets: 0it [00:00, ?it/s]
-
-    Generating positive pairs:   0%|          | 0/50 [00:00<?, ?it/s]
-
-    Generating negative pairs:   0%|          | 0/50 [00:00<?, ?it/s]
-
-![](index_files/figure-commonmark/cell-8-output-7.png)
+    NameError: name 'trange' is not defined
