@@ -58,7 +58,7 @@ def mtcnn_aligned(path: Path,  # path to unaligned images
         collate_fn=training.collate_pil
     )
 
-    for imgs, paths in progress_bar(loader, comment='MTCNN'):
+    for imgs, paths in progress_bar(loader):
         output_paths = [mtcnn_path/p.relative_to(path) for p in paths]
         mtcnn(imgs, save_path=output_paths)
 

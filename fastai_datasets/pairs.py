@@ -5,7 +5,7 @@ __all__ = ['ImagePair', 'Sameness', 'Pairs']
 
 # %% ../nbs/pairs.ipynb 2
 import random
-from typing import NamedTuple, Union
+from typing import Union
 
 from fastai.vision.all import *
 from fastprogress.fastprogress import *
@@ -54,19 +54,19 @@ def _pairs_for_split(singles: DataLoaders, split_idx: int, factor: int):
     num = int(len(indices) * factor)
 
     class_map = defaultdict(list)
-    for i, c in progress_bar(indices.zipwith(singles.i2t.subset(split_idx)), comment='Class map: scanning targets'):
+    for i, c in progress_bar(indices.zipwith(singles.i2t.subset(split_idx))):
         class_map[singles.vocab[c]].append(i)
 
     @return_list
     def _positive_pairs():
         multi_item_class_map = {k: v for k, v in class_map.items() if len(v)>1}
-        for _ in progress_bar(range(num//2), comment=f'Generating positive pairs'):
+        for _ in progress_bar(range(num//2)):
             c, idxs = random.choice(list(multi_item_class_map.items()))
             yield tuple(random.sample(idxs, 2))
 
     @return_list
     def _negative_pairs():
-        for _ in progress_bar(range(num//2), comment=f'Generating negative pairs'):
+        for _ in progress_bar(range(num//2)):
             (c1, idxs1), (c2, idxs2) = random.sample(list(class_map.items()), 2)
             yield (random.choice(idxs1), random.choice(idxs2))
 
