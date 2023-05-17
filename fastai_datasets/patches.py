@@ -104,7 +104,6 @@ def by_target(self: Datasets) -> Dict[int, Datasets]:
                            for c, indices in progress_bar(class_map.items())}
     return self._by_target
 
-
 # %% ../nbs/Core/patches.ipynb 37
 import matplotlib.pyplot as plt
 
@@ -119,31 +118,30 @@ class ListToTuple(Transform):
     def encodes(self, o:list):
         return tuple(o)
 
-
 # %% ../nbs/Core/patches.ipynb 42
 dl_defaults = {'pin_memory': default_device() != torch.device('cpu'), 'device': default_device(),
                'after_item': [ToTensor], 'after_batch': [ListToTuple, IntToFloatTensor]}
 
 # %% ../nbs/Core/patches.ipynb 44
-def _dl_args(kwargs):
+def _dl_args(**kwargs):
+    kwargs = deepcopy(kwargs)
     args = deepcopy(dl_defaults)
     for event in ['after_item', 'after_batch']:
         if event in kwargs:
-            tfms = kwargs[event]
+            tfms = kwargs.pop(event)
             args[event] += tfms if isinstance(tfms, Sequence) else [tfms]
+    args.update(kwargs)
     return args
-
 
 @patch
 def dls(self: Datasets, **kwargs) -> DataLoaders:
     """Calls `Datasets.dataloaders` with defaults from `dl_defaults`"""
-    return self.dataloaders(**_dl_args(kwargs))
-
+    return self.dataloaders(**_dl_args(**kwargs))
 
 @patch
 def dl(self: Datasets, **kwargs) -> DataLoader:
     """Creates a `DataLoader` (ignoring splits) with defaults from `dl_defaults`"""
-    return self._dl_type(self, **_dl_args(kwargs))
+    return self._dl_type(self, **_dl_args(**kwargs))
 
 # %% ../nbs/Core/patches.ipynb 46
 @patch
