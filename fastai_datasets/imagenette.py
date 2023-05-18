@@ -11,11 +11,24 @@ from fastai.vision.all import *
 import fastai_datasets.patches
 
 # %% ../nbs/imagenette.ipynb 4
+_labels = dict(
+    n01440764='tench',
+    n02102040='English springer',
+    n02979186='cassette player',
+    n03000684='chain saw',
+    n03028079='church',
+    n03394916='French horn',
+    n03417042='garbage truck',
+    n03425413='gas pump',
+    n03445777='golf ball',
+    n03888257='parachute'
+)
+
 def Imagenette(size:Literal[None, 320, 160]):
     url = {None: URLs.IMAGENETTE, 320: URLs.IMAGENETTE_320, 160: URLs.IMAGENETTE_160}[size]
     return DataBlock(
         blocks=(ImageBlock, CategoryBlock),
         get_items=get_image_files,
-        get_y=parent_label,
+        get_y=Pipeline([parent_label, _labels.__getitem__]),
         splitter=GrandparentSplitter('train', 'val')
     ).datasets(untar_data(url))
