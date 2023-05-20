@@ -41,7 +41,7 @@ mnist.plot_class_distribution()
 
     <div>
       <progress value='10' class='' max='10' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [10/10 00:00&lt;00:00 Class map: partitioning]
+      100.00% [10/10 00:00&lt;00:00]
     </div>
     
 
@@ -55,8 +55,8 @@ Whole datasets:
 mnist
 ```
 
-    [(#60000) [(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7))...]
-    (#10000) [(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7)),(PILImage mode=RGB size=28x28, TensorCategory(7))...]]
+    [(#60000) [(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7))...]
+    (#10000) [(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7))...]]
 
 Subset:
 
@@ -64,8 +64,8 @@ Subset:
 mnist.random_sub_dsets(1000)
 ```
 
-    [(#865) [(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(9)),(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(9)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(8)),(PILImage mode=RGB size=28x28, TensorCategory(1))...]
-    (#135) [(PILImage mode=RGB size=28x28, TensorCategory(3)),(PILImage mode=RGB size=28x28, TensorCategory(9)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(5)),(PILImage mode=RGB size=28x28, TensorCategory(0)),(PILImage mode=RGB size=28x28, TensorCategory(4)),(PILImage mode=RGB size=28x28, TensorCategory(1)),(PILImage mode=RGB size=28x28, TensorCategory(9))...]]
+    [(#881) [(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(9)),(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(9)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(4))...]
+    (#119) [(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(9)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(9))...]]
 
 ### Construct a subset based on classes
 
@@ -77,7 +77,7 @@ dig_frog_bird.dls().show_batch()
 
     <div>
       <progress value='10' class='' max='10' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [10/10 00:00&lt;00:00 Class map: partitioning]
+      100.00% [10/10 00:00&lt;00:00]
     </div>
     
 
@@ -91,7 +91,7 @@ Pairs(cifar10, .01).dls().show_batch()
 
     <div>
       <progress value='50' class='' max='50' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [50/50 00:00&lt;00:00 Generating negative pairs]
+      100.00% [50/50 00:00&lt;00:00]
     </div>
     
 
