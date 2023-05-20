@@ -86,7 +86,7 @@ def __add__(self: Datasets, other: Datasets):
 def __sub__(self: Datasets, other: Datasets):
     assert self.tfms == other.tfms
     assert set(other.items).issubset(self.items)
-    return self.sub_dsets([i for i, o in enumerate(self.items) if o not in set(other.items)])
+    return self.sub_dsets([i for i, o in enumerate(progress_bar(self.items, leave=False)) if o not in set(other.items)])
 
 # %% ../nbs/Core/patches.ipynb 33
 @patch(as_prop=True)
