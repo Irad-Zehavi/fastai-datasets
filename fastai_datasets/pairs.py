@@ -62,13 +62,13 @@ def _pairs_for_split(singles: DataLoaders, split_idx: int, factor: int):
     @return_list
     def _positive_pairs():
         multi_item_class_map = {k: v for k, v in class_map.items() if len(v)>1}
-        for _ in progress_bar(range(num//2), comment='Generating positive pairs', leave=False):
+        for _ in progress_bar(range(num//2), leave=False):
             c, idxs = random.choice(list(multi_item_class_map.items()))
             yield tuple(random.sample(idxs, 2))
 
     @return_list
     def _negative_pairs():
-        for _ in progress_bar(range(num//2), comment='Generating negative pairs', leave=False):
+        for _ in progress_bar(range(num//2), leave=False):
             (c1, idxs1), (c2, idxs2) = random.sample(list(class_map.items()), 2)
             yield (random.choice(idxs1), random.choice(idxs2))
 
