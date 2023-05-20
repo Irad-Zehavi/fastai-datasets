@@ -13,7 +13,7 @@ import fastai_datasets.patches
 # %% ../nbs/mnist.ipynb 4
 def MNIST(sample=False):
     return DataBlock(
-        blocks=(ImageBlock, CategoryBlock),
+        blocks=(ImageBlock(PILImageBW), CategoryBlock),
         get_items=get_image_files,
         get_y=parent_label,
         splitter=GrandparentSplitter('training', 'testing') if not sample else GrandparentSplitter()
@@ -21,7 +21,7 @@ def MNIST(sample=False):
 
 def TinyMNIST():
     return DataBlock(
-        blocks=(ImageBlock, CategoryBlock),
+        blocks=(ImageBlock(PILImageBW), CategoryBlock),
         get_items=partial(get_image_files, folders=['train', 'valid']),
         get_y=parent_label,
         splitter=GrandparentSplitter(),
