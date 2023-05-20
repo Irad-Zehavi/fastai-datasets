@@ -98,10 +98,10 @@ def i2t(self: Datasets):
 @patch(as_prop=True)
 def by_target(self: Datasets) -> Dict[int, Datasets]:
     if not hasattr(self, '_by_target'):
-        targets = [int(t) for t in progress_bar(self.i2t)]
+        targets = [int(t) for t in progress_bar(self.i2t, comment='Scanning targets', leave=False)]
         class_map = groupby(enumerate(targets), key=1, val=0)
         self._by_target = {self.vocab[c]: self.sub_dsets(indices)
-                           for c, indices in progress_bar(class_map.items())}
+                           for c, indices in progress_bar(class_map.items(), comment='Partitioning into subsets', leave=False)}
     return self._by_target
 
 # %% ../nbs/Core/patches.ipynb 37

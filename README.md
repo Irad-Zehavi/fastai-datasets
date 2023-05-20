@@ -39,12 +39,6 @@ mnist.dls().show_batch()
 mnist.plot_class_distribution()
 ```
 
-    <div>
-      <progress value='10' class='' max='10' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [10/10 00:00&lt;00:00]
-    </div>
-    
-
 ![](index_files/figure-commonmark/cell-4-output-2.png)
 
 ### Sample a subset
@@ -64,8 +58,8 @@ Subset:
 mnist.random_sub_dsets(1000)
 ```
 
-    [(#881) [(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(9)),(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(9)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(4))...]
-    (#119) [(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(9)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(9))...]]
+    [(#861) [(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(6)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(5)),(PILImageBW mode=L size=28x28, TensorCategory(1))...]
+    (#139) [(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(9))...]]
 
 ### Construct a subset based on classes
 
@@ -75,12 +69,6 @@ dig_frog_bird = cifar10.by_target['dog'] + cifar10.by_target['frog'] + cifar10.b
 dig_frog_bird.dls().show_batch()
 ```
 
-    <div>
-      <progress value='10' class='' max='10' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [10/10 00:00&lt;00:00]
-    </div>
-    
-
 ![](index_files/figure-commonmark/cell-7-output-2.png)
 
 ### Construct a dataset of similarity pairs
@@ -88,11 +76,5 @@ dig_frog_bird.dls().show_batch()
 ``` python
 Pairs(cifar10, .01).dls().show_batch()
 ```
-
-    <div>
-      <progress value='50' class='' max='50' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [50/50 00:00&lt;00:00]
-    </div>
-    
 
 ![](index_files/figure-commonmark/cell-8-output-2.png)
