@@ -34,6 +34,11 @@ def sub_dsets(self: Datasets, indices: Iterable[int]):
 
 # %% ../nbs/Core/patches.ipynb 13
 @patch
+def sub_dl(self:DataLoader, indices: Iterable[int]):
+    return self.new(self.dataset.sub_dsets(indices))
+
+# %% ../nbs/Core/patches.ipynb 18
+@patch
 def random_sub_dsets(self: Datasets, size, with_replacement=False, less_ok=False) -> Datasets:
     if size == 0:
         return self.subset([])
@@ -44,7 +49,13 @@ def random_sub_dsets(self: Datasets, size, with_replacement=False, less_ok=False
     indices = sampler(range(len(self)),  k=size)
     return self.sub_dsets(indices)
 
-# %% ../nbs/Core/patches.ipynb 18
+# %% ../nbs/Core/patches.ipynb 21
+@patch
+@delegates(Datasets.random_sub_dsets)
+def random_sub_dl(self: DataLoader, *args, **kwargs):
+    return self.new(self.dataset.random_sub_dsets(*args, **kwargs))
+
+# %% ../nbs/Core/patches.ipynb 25
 @patch
 def subset(self: TfmdLists, i):
     s = self._new(self._get(self.splits[i]), split_idx=i)
@@ -75,13 +86,13 @@ def __add__(l1: TfmdLists, l2: TfmdLists):
         do_setup=False
     )
 
-# %% ../nbs/Core/patches.ipynb 25
+# %% ../nbs/Core/patches.ipynb 32
 @patch
 def __add__(self: Datasets, other: Datasets):
     assert len(self.tls) == len(other.tls)
     return Datasets(tls=[t1 + t2 for t1, t2 in zip(self.tls, other.tls)])
 
-# %% ../nbs/Core/patches.ipynb 30
+# %% ../nbs/Core/patches.ipynb 37
 @patch
 def __sub__(self: Datasets, other: Datasets):
     assert self.tfms == other.tfms
@@ -89,13 +100,28 @@ def __sub__(self: Datasets, other: Datasets):
     assert other_items.issubset(self.items)
     return self.sub_dsets([i for i, o in enumerate(progress_bar(self.items, leave=False)) if o not in other_items])
 
-# %% ../nbs/Core/patches.ipynb 33
+# %% ../nbs/Core/patches.ipynb 40
+from types import MethodType
+
+@patch
+def __add__(self: DataLoader, other: DataLoader):
+    for k in list(self.__stored_args__.keys()) + self._methods:
+        if k in {'dataset', 'n'}:
+            continue
+        v1 = getattr(self, k)
+        v2 = getattr(other, k)
+        if isinstance(v1, MethodType) and isinstance(v2, MethodType):
+            continue
+        assert v1 == v2, f"Property {k} mismatch: {v1} != {v2}"
+    return self.new(self.dataset + other.dataset)
+
+# %% ../nbs/Core/patches.ipynb 45
 @patch(as_prop=True)
 def i2t(self: Datasets):
     assert self.n_inp == len(self.tls) - 1
     return self.tls[-1]
 
-# %% ../nbs/Core/patches.ipynb 35
+# %% ../nbs/Core/patches.ipynb 47
 @patch(as_prop=True)
 def by_target(self: Datasets) -> Dict[int, Datasets]:
     if not hasattr(self, '_by_target'):
@@ -105,7 +131,12 @@ def by_target(self: Datasets) -> Dict[int, Datasets]:
                            for c, indices in progress_bar(class_map.items(), leave=False)}
     return self._by_target
 
-# %% ../nbs/Core/patches.ipynb 37
+# %% ../nbs/Core/patches.ipynb 50
+@patch(as_prop=True)
+def by_target(self: DataLoader) -> Dict[int, DataLoader]:
+    return {k: self.new(v) for k, v in self.dataset.by_target.items()}
+
+# %% ../nbs/Core/patches.ipynb 52
 import matplotlib.pyplot as plt
 
 @patch()
@@ -113,17 +144,17 @@ def plot_class_distribution(self: Datasets):
     for split in self.subsets:
         plt.bar(self.vocab, [len(split.by_target[c]) for c in self.vocab])
 
-# %% ../nbs/Core/patches.ipynb 41
+# %% ../nbs/Core/patches.ipynb 56
 class ListToTuple(Transform):
     """Transforms lists to tuples, useful for fixing a bug in pytorch (pin_memory turns inner tuples into lists)"""
     def encodes(self, o:list):
         return tuple(o)
 
-# %% ../nbs/Core/patches.ipynb 42
+# %% ../nbs/Core/patches.ipynb 57
 dl_defaults = {'pin_memory': default_device() != torch.device('cpu'), 'device': default_device(),
                'after_item': [ToTensor], 'after_batch': [ListToTuple, IntToFloatTensor]}
 
-# %% ../nbs/Core/patches.ipynb 44
+# %% ../nbs/Core/patches.ipynb 59
 def _dl_args(**kwargs):
     kwargs = deepcopy(kwargs)
     args = deepcopy(dl_defaults)
@@ -144,18 +175,18 @@ def dl(self: Datasets, **kwargs) -> DataLoader:
     """Creates a `DataLoader` (ignoring splits) with defaults from `dl_defaults`"""
     return self._dl_type(self, **_dl_args(**kwargs))
 
-# %% ../nbs/Core/patches.ipynb 46
+# %% ../nbs/Core/patches.ipynb 61
 @patch
 def load(self: Datasets, **kwargs):
     return first(self.dl(bs=len(self), **kwargs))
 
-# %% ../nbs/Core/patches.ipynb 49
+# %% ../nbs/Core/patches.ipynb 64
 @patch(as_prop=True)
 def subsets(self: Datasets) -> TfmdLists:
     """Lazy list of a `Datasets`'s subsets"""
     return TfmdLists(range(self.n_subsets), self.subset)
 
-# %% ../nbs/Core/patches.ipynb 51
+# %% ../nbs/Core/patches.ipynb 66
 @patch
 def resplit(self: Datasets,
             splits: Union[Callable, List[List[int]]]  # a splitter function or a list of splits
@@ -166,7 +197,7 @@ def resplit(self: Datasets,
     for t in self.tls:
         t.splits = splits
 
-# %% ../nbs/Core/patches.ipynb 54
+# %% ../nbs/Core/patches.ipynb 69
 @patch()
 def __repr__(self: Datasets):
     return '['+'\n'.join(repr(s) for s in self.subsets)+']' if self.split_idx is None else coll_repr(self)
