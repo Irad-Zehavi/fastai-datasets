@@ -28,7 +28,7 @@ class LFW(ABC):
         return f'{cls.BASE_URL}/{fname}'
 
     def all(self):
-        self._load(items=self._parse_items(self.TEST_ITEMS_FILE_NAME))
+        return self._load(items=self._parse_items(self.TEST_ITEMS_FILE_NAME))
 
     def test(self):
         items = self._parse_items(self.TEST_ITEMS_FILE_NAME)
