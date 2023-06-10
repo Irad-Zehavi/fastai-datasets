@@ -2,7 +2,7 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - cifar10.ipynb
+      - cifar.ipynb
       - imagenette.ipynb
       - mnist.ipynb
       - pairs.ipynb
