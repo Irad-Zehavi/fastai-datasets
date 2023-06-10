@@ -27,6 +27,9 @@ class LFW(ABC):
     def _url(cls, fname):
         return f'{cls.BASE_URL}/{fname}'
 
+    def all(self):
+        self._load(items=self._parse_items(self.TEST_ITEMS_FILE_NAME))
+
     def test(self):
         items = self._parse_items(self.TEST_ITEMS_FILE_NAME)
         splits = KFold(n_splits=10, shuffle=False).split(range_of(items))
@@ -40,6 +43,7 @@ class LFW(ABC):
         pass
 
     @abstractmethod
+    @delegates(Datasets)
     def _load(self, **kwargs):
         pass
 
