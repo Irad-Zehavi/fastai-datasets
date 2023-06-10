@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/Core/patches.html</loc>
+    <lastmod>2023-06-10T10:10:57.908Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/Core/utils.html</loc>
+    <lastmod>2023-06-10T10:10:58.592Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/pairs.html</loc>
+    <lastmod>2023-06-10T10:10:58.956Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/mnist.html</loc>
+    <lastmod>2023-06-10T10:10:59.268Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/cifar.html</loc>
+    <lastmod>2023-06-10T10:10:59.576Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/index.html</loc>
+    <lastmod>2023-06-10T10:11:00.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/imagenette.html</loc>
+    <lastmod>2023-06-10T10:11:00.468Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/Facial Recognition/pfr.html</loc>
+    <lastmod>2023-06-10T10:11:00.772Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Irad-Zehavi.github.io/fastai-datasets/Facial Recognition/lfw.html</loc>
+    <lastmod>2023-06-10T10:11:01.108Z</lastmod>
+  </url>
+</urlset>

@@ -1,0 +1,135 @@
+[
+  {
+    "objectID": "Core/patches.html",
+    "href": "Core/patches.html",
+    "title": "Patches - enhancing fastai’s data classes",
+    "section": "",
+    "text": "from fastai_datasets.mnist import TinyMNIST, MNIST"
+  },
+  {
+    "objectID": "Core/patches.html#lazy-subsets",
+    "href": "Core/patches.html#lazy-subsets",
+    "title": "Patches - enhancing fastai’s data classes",
+    "section": "Lazy Subsets",
+    "text": "Lazy Subsets\n\nsource\n\nTfmdLists.sublist\n\n TfmdLists.sublist (indices:Iterable[int])\n\na sublist that maintains laziness\n\nl = TfmdLists(list('abcd'), 'f({})'.format, splits=[[0, 1], [2, 3]])\nsub_l = l.sublist([1, 3])\n\ntest_eq(sub_l, L('f(b)', 'f(d)'))\n\nEach split is also intersected with the requested indices:\n\ntest_eq(sub_l.train, L('f(b)'))\ntest_eq(sub_l.valid, L('f(d)'))\n\n\nsource\n\n\nDatasets.sub_dsets\n\n Datasets.sub_dsets (indices:Iterable[int])\n\n\nds = Datasets(list('abcd'), ['f({})'.format, 'g({})'.format], splits=[[0, 1], [2, 3]])\nsub_ds = ds.sub_dsets([1, 3])\n\ntest_eq(sub_ds, L(('f(b)', 'g(b)'), ('f(d)', 'g(d)')))\n\nEach split is also intersected with the requested indices:\n\ntest_eq(sub_ds.train, L([('f(b)', 'g(b)')]))\ntest_eq(sub_ds.valid, L([('f(d)', 'g(d)')]))\n\n\nsource\n\n\nDataLoader.sub_dl\n\n DataLoader.sub_dl (indices:Iterable[int])\n\n\ndl = ds.dl()\nsub_dl = dl.sub_dl([1, 3])\n\ntest_eq(sub_dl.dataset, sub_ds)\n\nSubDataLoaders inherit their parent’s parameters:\n\ndl = ds.dl(shuffle=True, bs=10, after_item=lambda o: o[1])\nsub_dl = dl.sub_dl([1, 3])\n\ntest_eq(sub_dl.shuffle, dl.shuffle)\ntest_eq(sub_dl.bs, dl.bs)\ntest_eq(sub_dl.after_item, dl.after_item)\n\n\n\nRandom Subsets\n\nsource\n\n\nDatasets.random_sub_dsets\n\n Datasets.random_sub_dsets (size, with_replacement=False, less_ok=False)\n\n\ntest_eq(len(ds.random_sub_dsets(2)), 2)\n\n\ntest_fail(partial(ds.random_sub_dsets, size=6, less_ok=False))\ntest_eq(len(ds.random_sub_dsets(6, less_ok=True)), len(ds))\n\n\nsource\n\n\nDataLoader.random_sub_dl\n\n DataLoader.random_sub_dl (*args, with_replacement=False, less_ok=False)\n\n\ndl = ds.dl()\ntest_eq(dl.random_sub_dl(2).n, 2)"
+  },
+  {
+    "objectID": "Core/patches.html#arithmetics",
+    "href": "Core/patches.html#arithmetics",
+    "title": "Patches - enhancing fastai’s data classes",
+    "section": "Arithmetics",
+    "text": "Arithmetics\n\nConcatenating TfmdLists\n\nl1 = TfmdLists(list('abc'), 'f({})'.format, splits=[[0, 1], [2]])\nl2 = TfmdLists(list('bcd'), 'g({})'.format, splits=[[0], [1, 2]])\n\ntest_eq(l1 + l2, L('f(a)', 'f(b)', 'f(c)', 'g(b)', 'g(c)', 'g(d)'))\n\nAlso concatenates each split separtely:\n\ntest_eq((l1+l2).train, l1.train + l2.train)\ntest_eq((l1+l2).valid, l1.valid + l2.valid)\n\nShares common transform postfix to allow showing:\n\nmnist = TinyMNIST()\nconcat_l = mnist.tls[0]+mnist.tls[0]\nshow_at(concat_l, 0)\n\n&lt;AxesSubplot:&gt;\n\n\n\n\n\n\n\nConcatenating Datasetss\n\nds1 = Datasets(list('abc'), ['f1({})'.format, 'f2({})'.format], splits=[[0, 1], [2]])\nds2 = Datasets(list('bcd'), ['g1({})'.format, 'g2({})'.format], splits=[[0], [1, 2]])\n\ntest_eq(ds1 + ds2, L(('f1(a)', 'f2(a)'), ('f1(b)', 'f2(b)'), ('f1(c)', 'f2(c)'),\n                     ('g1(b)', 'g2(b)'), ('g1(c)', 'g2(c)'), ('g1(d)', 'g2(d)')))\n\nAlso concatenates each split separtely:\n\ntest_eq((ds1+ds2).train, ds1.train + ds2.train)\ntest_eq((ds1+ds2).valid, ds1.valid + ds2.valid)\n\n\n\nSubtracting SubDatasets\n\ntest_eq(ds-sub_ds, L(('f(a)', 'g(a)'), ('f(c)', 'g(c)')))\ntest_eq((ds-sub_ds).train, L([('f(a)', 'g(a)')]))\ntest_eq((ds-sub_ds).valid, L([('f(c)', 'g(c)')]))\n\n\n\n\n\n\nConcatenating DataLoaders\n\ndl1 = ds1.dl()\ndl2 = ds2.dl()\n\ntest_eq((dl1+dl2).dataset , ds1+ds2)\n\nDataloaders have to have identical parameters:\n\ntest_fail(lambda: ds1.dl(shuffle=False) + ds2.dl(shuffle=True))\ntest_fail(lambda: ds1.dl(bs=16) + ds2.dl(bs=32))\ntest_fail(lambda: ds1.dl() + ds2.dl(after_item=lambda o: o[0]))"
+  },
+  {
+    "objectID": "Core/patches.html#targets",
+    "href": "Core/patches.html#targets",
+    "title": "Patches - enhancing fastai’s data classes",
+    "section": "Targets",
+    "text": "Targets\n\nsource\n\nDatasets.i2t\n\n Datasets.i2t ()\n\n\nds = Datasets(list('abcd'), ['f({})'.format, 'g({})'.format, 'h({})'.format])\ntest_eq(ds.i2t, L('h(a)', 'h(b)', 'h(c)', 'h(d)'))\n\n\nsource\n\n\nDatasets.by_target\n\n Datasets.by_target ()\n\n\nds = Datasets(range(10), [noop, [lambda o: ['Even', 'Odd'][o%2], Categorize()]])\n\ntest_eq(ds.by_target.keys(), ['Even', 'Odd'])\ntest_eq(ds.by_target['Even'], L((i, ds.vocab.o2i['Even']) for i in [0, 2, 4, 6, 8]))\ntest_eq(ds.by_target['Odd'],  L((i, ds.vocab.o2i['Odd'])  for i in [1, 3, 5, 7, 9]))\n\n\n\n\nWe can also partition DataLoaders by targets:\n\nsource\n\n\nDataLoader.by_target\n\n DataLoader.by_target ()\n\n\ndl = ds.dl()\n\ntest_eq(dl.by_target.keys(), ds.by_target.keys())\nfor k in ds.by_target.keys():\n    test_eq(dl.by_target[k].dataset, ds.by_target[k])\n\n\nsource\n\n\nDatasets.plot_class_distribution\n\n Datasets.plot_class_distribution ()\n\n\nMNIST().plot_class_distribution()"
+  },
+  {
+    "objectID": "Core/patches.html#loading",
+    "href": "Core/patches.html#loading",
+    "title": "Patches - enhancing fastai’s data classes",
+    "section": "Loading",
+    "text": "Loading\nCommon default parameters for dataloaders:\n\nsource\n\nListToTuple\n\n ListToTuple (enc=None, dec=None, split_idx=None, order=None)\n\nTransforms lists to tuples, useful for fixing a bug in pytorch (pin_memory turns inner tuples into lists)\n\ndl_defaults = {'pin_memory': default_device() != torch.device('cpu'), 'device': default_device(),\n               'after_item': [ToTensor], 'after_batch': [ListToTuple, IntToFloatTensor]}\n\nConvenience methods for creating loaders with dl_defaults\n\nsource\n\n\nDatasets.dl\n\n Datasets.dl (**kwargs)\n\nCreates a DataLoader (ignoring splits) with defaults from dl_defaults\n\nsource\n\n\nDatasets.dls\n\n Datasets.dls (**kwargs)\n\nCalls Datasets.dataloaders with defaults from dl_defaults\nFor small enough datasets, we might want to load all of it to memory:\n\nsource\n\n\nDatasets.load\n\n Datasets.load (**kwargs)\n\n\nmnist = TinyMNIST()\nx, y = mnist.random_sub_dsets(10).load()\ntest_eq(x.shape, [10, 1, 28, 28])\ntest_eq(y.shape, [10])"
+  },
+  {
+    "objectID": "Core/patches.html#misc",
+    "href": "Core/patches.html#misc",
+    "title": "Patches - enhancing fastai’s data classes",
+    "section": "Misc",
+    "text": "Misc\n\nsource\n\nDatasets.subsets\n\n Datasets.subsets ()\n\nLazy list of a Datasets’s subsets\n\nds = Datasets(list('abcd'), ['f({})'.format, 'g({})'.format], splits=[[0, 2], [1, 3]])\ntest_eq(ds.subsets, L(ds.train, ds.valid))\n\n\nsource\n\n\nDatasets.resplit\n\n Datasets.resplit (splits:Union[Callable,List[List[int]]])\n\nSets the splits of a Datasets\n\n\n\n\n\n\n\n\n\nType\nDetails\n\n\n\n\nsplits\ntyping.Union[typing.Callable, typing.List[typing.List[int]]]\na splitter function or a list of splits\n\n\n\n\nds = Datasets(list('abcd'), ['f({})'.format, 'g({})'.format], splits=[[0, 2], [1, 3]])\nds.resplit(EndSplitter(.75))\n\ntest_eq(ds.splits, [[0], [1, 2, 3]])\n\n\n\nDatasets.repr\nDatasets.repr shows all splits:\n\nds = Datasets(list('abcd'), ['f({})'.format, 'g({})'.format], splits=[[0, 2], [1, 3]])\nfor split in ds.subsets:\n    assert repr(split) in repr(ds)"
+  },
+  {
+    "objectID": "Core/patches.html#usage-examples",
+    "href": "Core/patches.html#usage-examples",
+    "title": "Patches - enhancing fastai’s data classes",
+    "section": "Usage Examples",
+    "text": "Usage Examples\n\nfrom fastai_datasets.all import *\n\n\nmnist = MNIST()\n\nShow dataset structure:\n\nmnist\n\n[(#60000) [(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7))...]\n(#10000) [(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7))...]]\n\n\nLet’s sample a random subset:\n\nmnist = mnist.random_sub_dsets(1000)\n\nShow its class distribution:\n\nmnist.plot_class_distribution()\n\n\n\n\n\n\n\nUse only the even digits:\n\nevens = mnist.by_target['0'] + mnist.by_target['2'] + mnist.by_target['4'] + mnist.by_target['6'] + mnist.by_target['8']\nevens.dls().show_batch()\n\n\n\n\n\n\n\nDrop specific classes:\n\nless_than_7 = mnist - mnist.by_target['9'] - mnist.by_target['8'] - mnist.by_target['7']\nless_than_7.dl().show_batch(max_n=25)\n\n\n\n\n\n\n\nEstimate the mean sample from a specific class:\n\nthrees_sample = mnist.by_target['3'].random_sub_dsets(20)\nthrees_sample.load()[0].mean(0).show()\n\n&lt;AxesSubplot:&gt;"
+  },
+  {
+    "objectID": "Core/utils.html",
+    "href": "Core/utils.html",
+    "title": "Utils",
+    "section": "",
+    "text": "source\n\nfetch_file\n\n fetch_file (*args, force=False)\n\n\nsource\n\n\ndata_path\n\n data_path ()\n\n\nsource\n\n\nreturn_list\n\n return_list (f)\n\n\n@return_list\ndef foo(n):\n    yield from range(n)\n\ntest_eq(foo(10), list(range(10)))\n\n\nsource\n\n\nmtcnn_aligned\n\n mtcnn_aligned (path:pathlib.Path, force=False, batched=True)\n\nUses MTCNN to align and extract faces\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\npath\nPath\n\npath to unaligned images\n\n\nforce\nbool\nFalse\ncompute MTCNN alignment even if aligned images exist\n\n\nbatched\nbool\nTrue\n\n\n\nReturns\nPath\n\npath to aligned images"
+  },
+  {
+    "objectID": "pairs.html",
+    "href": "pairs.html",
+    "title": "Pairs Datasets",
+    "section": "",
+    "text": "source\n\nSameness\n\n Sameness ()\n\nConverts boolean/binary labels into “Not Same”/“Same” labels\n\nsource\n\n\nImagePair\n\n ImagePair (x=None, *rest)\n\nAdds showing functionality to fastai’s fastuple\n\nl = TfmdLists([False, 0, True, 1], Sameness())\ntest_eq([l.decode(o) for o in l], ['Not Same', 'Not Same', 'Same', 'Same'])\n\n\nsource\n\n\nPairs\n\n Pairs (singles:fastai.data.core.Datasets, factor=10, tuple_type=&lt;class\n        '__main__.ImagePair'&gt;)\n\nFixed dataset of randomly-sampled pairs\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nsingles\nDatasets\n\nUsed to construct pairs\n\n\nfactor\nint\n10\nratio between numer of pairs and number of single items, for each split\n\n\ntuple_type\ntype\nImagePair\nTo add show logic for pairs\n\n\nReturns\nDatasets\n\n\n\n\n\n\nfrom fastai_datasets.mnist import TinyMNIST\n\n\nsingles = TinyMNIST()\nfactor = .5\npairs = Pairs(singles, factor, ImagePair)\n\n\n\n\n\nfor i, (idx1, idx2) in enumerate(pairs.items):\n    pair, target = pairs[i]\n    test_eq(pair, ImagePair(singles.tls[0][(idx1, idx2)]))\n    test_eq(target, int(singles.i2t[idx1] == singles.i2t[idx2]))\n\nThe pairing is done separately for each subset:\n\nfor singles_ss, pairs_ss in zip(singles.subsets, pairs.subsets):\n    test_close(len(pairs_ss), len(singles_ss)*factor, 2)\n    test_eq(set(pairs_ss.by_target.keys()), {'Not Same', 'Same'})\n    test_eq(len(pairs.by_target['Same']), len(pairs.by_target['Not Same']))\n\n\n\n\n\npairs.dls().show_batch()"
+  },
+  {
+    "objectID": "mnist.html",
+    "href": "mnist.html",
+    "title": "MNIST",
+    "section": "",
+    "text": "source"
+  },
+  {
+    "objectID": "mnist.html#smaller-versions",
+    "href": "mnist.html#smaller-versions",
+    "title": "MNIST",
+    "section": "Smaller Versions",
+    "text": "Smaller Versions\n\nMNIST(sample=True).dls().show_batch()\n\n\n\n\n\nTinyMNIST().dls().show_batch()"
+  },
+  {
+    "objectID": "cifar.html",
+    "href": "cifar.html",
+    "title": "CIFAR",
+    "section": "",
+    "text": "source\n\nCIFAR10\n\n CIFAR10 ()\n\n\nCIFAR10().dls().show_batch()\n\n\n\n\n\nsource\n\n\nCIFAR100\n\n CIFAR100 ()\n\n\nCIFAR100().dls().show_batch()"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "fastai-datasets",
+    "section": "",
+    "text": "See https://irad-zehavi.github.io/fastai-datasets/"
+  },
+  {
+    "objectID": "index.html#docs",
+    "href": "index.html#docs",
+    "title": "fastai-datasets",
+    "section": "",
+    "text": "See https://irad-zehavi.github.io/fastai-datasets/"
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "fastai-datasets",
+    "section": "Install",
+    "text": "Install\npip install fastai_datasets"
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "fastai-datasets",
+    "section": "How to use",
+    "text": "How to use\nAs an nbdev library, fatai_datasets supports import * (without importing unwanted symbols):\n\nfrom fastai_datasets.all import *\n\nHere are a few usage examles:\n\nEasily load a dataset\n\nmnist = MNIST()\nmnist.dls().show_batch()\n\n\n\n\n\n\nShow the class distribution\n\nmnist.plot_class_distribution()\n\n\n\n\n\n\n\n\n\nSample a subset\nWhole datasets:\n\nmnist\n\n[(#60000) [(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7))...]\n(#10000) [(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(7))...]]\n\n\nSubset:\n\nmnist.random_sub_dsets(1000)\n\n[(#861) [(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(6)),(PILImageBW mode=L size=28x28, TensorCategory(7)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(3)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(5)),(PILImageBW mode=L size=28x28, TensorCategory(1))...]\n(#139) [(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(0)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(4)),(PILImageBW mode=L size=28x28, TensorCategory(2)),(PILImageBW mode=L size=28x28, TensorCategory(8)),(PILImageBW mode=L size=28x28, TensorCategory(1)),(PILImageBW mode=L size=28x28, TensorCategory(9))...]]\n\n\n\n\nConstruct a subset based on classes\n\ncifar10 = CIFAR10()\ndig_frog_bird = cifar10.by_target['dog'] + cifar10.by_target['frog'] + cifar10.by_target['bird']\ndig_frog_bird.dls().show_batch()\n\n\n\n\n\n\n\n\n\nConstruct a dataset of similarity pairs\n\nPairs(cifar10, .01).dls().show_batch()"
+  },
+  {
+    "objectID": "imagenette.html",
+    "href": "imagenette.html",
+    "title": "Imagenette",
+    "section": "",
+    "text": "source\n\nImagenette\n\n Imagenette (size:Literal[None,320,160])\n\n\ndsets = Imagenette(size=160)\ndsets\n\n[(#9469) [(PILImage mode=RGB size=160x201, TensorCategory(8)),(PILImage mode=RGB size=160x213, TensorCategory(8)),(PILImage mode=RGB size=239x160, TensorCategory(8)),(PILImage mode=RGB size=188x160, TensorCategory(8)),(PILImage mode=RGB size=240x160, TensorCategory(8)),(PILImage mode=RGB size=160x213, TensorCategory(8)),(PILImage mode=RGB size=200x160, TensorCategory(8)),(PILImage mode=RGB size=213x160, TensorCategory(8)),(PILImage mode=RGB size=160x240, TensorCategory(8)),(PILImage mode=RGB size=240x160, TensorCategory(8))...]\n(#3925) [(PILImage mode=RGB size=239x160, TensorCategory(8)),(PILImage mode=RGB size=227x160, TensorCategory(8)),(PILImage mode=RGB size=213x160, TensorCategory(8)),(PILImage mode=RGB size=160x240, TensorCategory(8)),(PILImage mode=RGB size=160x232, TensorCategory(8)),(PILImage mode=RGB size=240x160, TensorCategory(8)),(PILImage mode=RGB size=200x160, TensorCategory(8)),(PILImage mode=RGB size=239x160, TensorCategory(8)),(PILImage mode=RGB size=206x160, TensorCategory(8)),(PILImage mode=RGB size=213x160, TensorCategory(8))...]]\n\n\n\ndsets.dls(after_item=Resize(128)).show_batch()"
+  },
+  {
+    "objectID": "Facial Recognition/pfr.html",
+    "href": "Facial Recognition/pfr.html",
+    "title": "Pins Face Recognition",
+    "section": "",
+    "text": "https://www.kaggle.com/datasets/hereisburak/pins-face-recognition\n\nsource\n\nPinterestFaces\n\n PinterestFaces (mtcnn=True, splitter=None)\n\nRequires the user to download the file manually\n\nPinterestFaces(True).dls(after_item=Resize(160)).show_batch()"
+  },
+  {
+    "objectID": "Facial Recognition/lfw.html",
+    "href": "Facial Recognition/lfw.html",
+    "title": "LFW",
+    "section": "",
+    "text": "source\n\nLFWPeople\n\n LFWPeople (mtcnn=True)\n\nIndividual facial images. Splits contain disjoint identities, since they’re meant to for constructing pairs (using Pairs)\n\nLFWPeople().dev().dls().show_batch()\n\n\n\n\n\nsource\n\n\nLFWPairs\n\n LFWPairs (mtcnn=True)\n\nFixed pairs of facial images\n\nLFWPairs().dev().dls().show_batch()\n\n\n\n\n\nsource\n\n\nSLLFWPairs\n\n SLLFWPairs (mtcnn=True)\n\nSimilar Looking LFW: http://whdeng.cn/SLLFW/index.html\n\nSLLFWPairs().test()[0].dls().show_batch()"
+  }
+]
