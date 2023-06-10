@@ -12,13 +12,14 @@ from .utils import *
 # %% ../nbs/Facial Recognition/pfr.ipynb 5
 ROOT = data_path()/'105_classes_pins_dataset'
 
-def PinterestFaces(mtcnn=True):
+def PinterestFaces(mtcnn=True, splitter=None):
     """Requires the user to download the file manually"""
     assert ROOT.exists(), f'Please manually download the dataset to {ROOT}'
     dblock = DataBlock(
         blocks=(ImageBlock, CategoryBlock),
         get_items=get_image_files,
-        get_y=lambda p: parent_label(p).replace('pins_', '').replace('_', ' ').title()
+        get_y=lambda p: parent_label(p).replace('pins_', '').replace('_', ' ').title(),
+        splitter=splitter
     )
 
     return dblock.datasets(mtcnn_aligned(ROOT, batched=False) if mtcnn else ROOT)
